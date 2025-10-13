@@ -27,8 +27,9 @@ def hlavni_menu():
                 print("Konec programu.")
                 break                   # ukončení cyklu while
             else:
-                print("Volba akce se zadaným číslem neexistuje. Zadejte číslo v rozsahu 1-4.") 
-                # nevyvolávám výjimku IndexError, muselo by se užít raise pro umělé vyvolání, volba čísla není ze seznamu, ale jen z tištěné nabídky
+                raise IndexError # vyvolání výjimky pro účely PyTestu, i když volby 1-4 nejsou seznam, ale jen tisk, výjimka IndexError je "umělá"
+        except IndexError:
+            print("Volba akce se zadaným číslem neexistuje. Zadejte číslo v rozsahu 1-4.")        
         except ValueError:
             print("Chybně zadaný datový typ. Zadejte číslo v rozsahu 1-4.")  # výjimka s hláškou, když zadá uživatel jiný datový typ než int
 
