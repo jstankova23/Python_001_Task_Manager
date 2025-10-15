@@ -72,7 +72,7 @@ def odstranit_ukol():
     try:
         cislo_ukolu = int(input("Zadejte číslo úkolu, který chcete odstranit: "))
         smazany_ukol = ukoly.pop(cislo_ukolu - 1) # index pozice snížen o 1, Python začíná od 0, zatímco číslování úkolů v seznamu od 1
-        print(f"Úkol '{smazany_ukol}' byl odstraněn.")    
+        print(f"Úkol '{smazany_ukol['nazev']}' byl odstraněn.")    
     except IndexError:
         print("Úkol se zadaným pořadovým číslem v seznamu neexistuje.") # výjimka s hláškou, když zadá uživatel neexistující číslo
     except ValueError:
