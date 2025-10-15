@@ -65,9 +65,28 @@ python task_manager_p1.py
 
 ```
 Python_001_Task_Manager
-├── task_manager_p1.py   # hlavní skript aplikace
-└── README.md            # dokumentace projektu
-```
+├── task_manager_p1.py             # hlavní skript aplikace
+├── Task_Manager_Test_Cases.xlsx   # testovací případy (manuální testy)
+└── README.md                      # dokumentace projektu
+
+---
+
+## Testování projektu
+
+Pro ověření funkčnosti programu byl vytvořen přehled testovacích scénářů
+v souboru Task_Manager_Test_Cases.xlsx.
+
+Tento dokument obsahuje:
+- seznam jednotlivých funkcí programu,
+- očekávané vstupy a výstupy,
+- kroky k provedení testu,
+- očekávaný výsledek a skutečný výsledek testu.
+
+Díky tomuto souboru je možné jednoduše ověřit, že všechny klíčové části aplikace
+fungují správně (např. přidání úkolu, mazání úkolu, ošetření chybných vstupů apod.).
+
+Testy jsou koncipovány jako manuální testovací případy a lze je použít i jako
+základ pro budoucí automatizované testování (např. pomocí modulu unittest).
 
 ---
 
