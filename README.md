@@ -126,10 +126,20 @@ Správce úkolů - Hlavní menu
 2. Zobrazit všechny úkoly
 3. Odstranit úkol
 4. Konec programu
-
 Vyberte možnost (1-4): 3
-Zadejte číslo úkolu: 1
-Úkol č. 1 byl odstraněn.
+
+Seznam úkolů
+1. nákup - pečivo, máslo, brambory
+2. knihovna - vrátit 3 půjčené knihy
+Zadejte číslo úkolu, který chcete odstranit: 2
+Úkol 'knihovna' byl odstraněn.
+
+Správce úkolů - Hlavní menu
+1. Přidat nový úkol
+2. Zobrazit všechny úkoly
+3. Odstranit úkol
+4. Konec programu
+Vyberte možnost (1-4):
 ```
 
 ---
