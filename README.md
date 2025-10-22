@@ -2,6 +2,7 @@
 
 Jednoduchá **konzolová aplikace v Pythonu** pro správu osobních úkolů.  
 Umožňuje přidávat, zobrazovat a mazat úkoly prostřednictvím textového menu.
+Program neukládá data trvale (seznam úkolů je pouze v paměti).
 
 Autor: **Jana Staňková**  
 Rok: **2025**
@@ -10,11 +11,12 @@ Rok: **2025**
 
 ## Cíl projektu
 
-Tento projekt byl vytvořen v rámci kurzu **ENGETO Python Developer – Projekt 1**  
+Tento projekt byl vytvořen po ukončení kurzu **ENGETO Testing Akademie – Projekt 1**.  
 Cílem je procvičit:
 - práci s funkcemi a cykly,  
 - manipulaci se seznamy a slovníky,  
-- ošetření chyb pomocí výjimek (`try/except`),  
+- kontrolu a validaci uživatelského vstupu,  
+- návratové hodnoty funkcí (`True` / `False`),  
 - interaktivní vstup od uživatele a výpis do konzole.
 
 ---
@@ -27,20 +29,50 @@ který umožňuje:
 1. **Přidat nový úkol**  
    - Uživatel zadá název a popis úkolu.  
    - Oba údaje jsou povinné (kontrola prázdných hodnot).  
+   - Funkce nyní vrací logický stav (`True` / `False`) podle úspěšnosti přidání úkolu.  
    - Úkol je uložen jako slovník (`{"nazev": ..., "popis": ...}`) do seznamu všech úkolů.
 
 2. **Zobrazit všechny úkoly**  
    - Program vypíše všechny uložené úkoly v přehledném seznamu s pořadovým číslem.  
-   - Pokud je seznam prázdný, vypíše se odpovídající hláška.
+   - Pokud je seznam prázdný, zobrazí hlášku **„Seznam úkolů je prázdný.“**
 
 3. **Odstranit úkol**  
-   - Uživatel zadá číslo úkolu, který chce odstranit.  
-   - Program ošetřuje chybné vstupy (`IndexError`, `ValueError`).  
-   - Po úspěšném odstranění úkolu se vypíše potvrzení.
+   - Uživatel zadá pořadové číslo úkolu, který chce odstranit.  
+   - Kontrola vstupu probíhá **před voláním funkce** pomocí metody `isdecimal()`  
+     a kontroly rozsahu (`0 < číslo <= len(ukoly)`).  
+   - Záporná a desetinná čísla nejsou považována za platný vstup.  
+   - Pokud je seznam úkolů prázdný, funkce ihned vypíše hlášku a vrátí se do hlavního menu.  
+   - Funkce vrací stav (`True` / `False`) podle úspěšnosti odstranění úkolu.  
+   - Program již nevyužívá výjimky `IndexError` ani `ValueError`.
 
 4. **Ukončit program**  
    - Volbou čísla 4 se program ukončí.
 
+---
+
+## Novinky ve verzi z 22. 10. 2025
+
+### Úpravy ve zdrojovém kódu (`task_manager_p1.py`)
+- Funkce `hlavni_menu()`, `odstranit_ukol()` validace vstupů přesunuta **před volání funkcí** – odstraněny bloky `try/except`.  
+- Funkce `pridat_ukol()` a `odstranit_ukol()` nově vracejí hodnoty `True` / `False`.  
+- Funkce `odstranit_ukol()` úprava chování při prázdném seznamu úkolů, změna hlášky – okamžitý návrat do hlavního menu.  
+- Změna hlášky:  
+  > „Seznam úkolů neobsahuje žádné úlohy.“ → „Seznam úkolů je prázdný.“  
+- Aktualizace hlavičky programu (informace o autorovi a verzi).
+
+### Úpravy v testovacích scénářích (`Task_Manager_Test_Cases.xlsx`)
+- Odstranění duplicitního kroku „Spustit program“ ze všech testů. 
+- Oprava názvu a popisu TC17 pro test zobrazení prázdného seznamu úkolů 
+- Aktualizace testů TC02, TC03, TC17, TC24 podle nové hlášky pro zobrazení prázdného seznamu úkolů.  
+- Zohlednění odstranění výjimek (`IndexError`, `ValueError`) ve funkcích `hlavni_menu()` a `odstranit_ukol()`.  
+- Přidány nové testovací scénáře pro funkci `odstranit_ukol()`:
+  - **TC22** – zadání desetinného čísla (float)  
+  - **TC25** – zadání hodnoty `0`  
+  - **TC26** – zadání záporného čísla  
+  - **TC28** – prázdný seznam úkolů při pokusu o výmaz  
+  Pozn.: Hláška pro TC22 a TC26 odpovídá chybě špatného datového typu,  
+  protože metoda `isdecimal()` povoluje pouze číslice 0–9.
+- Zohlednění změny kontroly a hlášky u prázdného seznamu úkolů ve funkci odstranit_ukol() v TC03
 ---
 
 ## Spuštění programu
@@ -68,25 +100,21 @@ Python_001_Task_Manager
 ├── task_manager_p1.py             # hlavní skript aplikace
 ├── Task_Manager_Test_Cases.xlsx   # testovací případy (manuální testy)
 └── README.md                      # dokumentace projektu
+```
 
 ---
 
 ## Testování projektu
 
-Pro ověření funkčnosti programu byl vytvořen přehled testovacích scénářů
-v souboru Task_Manager_Test_Cases.xlsx.
+Testování probíhá manuálně dle dokumentu **Task_Manager_Test_Cases.xlsx**,  
+který obsahuje:
 
-Tento dokument obsahuje:
-- seznam jednotlivých funkcí programu,
-- očekávané vstupy a výstupy,
-- kroky k provedení testu,
-- očekávaný výsledek a skutečný výsledek testu.
+- popisy funkcí programu,  
+- vstupní podmínky a testovací kroky,  
+- očekávané a skutečné výsledky.  
 
-Díky tomuto souboru je možné jednoduše ověřit, že všechny klíčové části aplikace
-fungují správně (např. přidání úkolu, mazání úkolu, ošetření chybných vstupů apod.).
-
-Testy jsou koncipovány jako manuální testovací případy a lze je použít i jako
-základ pro budoucí automatizované testování (např. pomocí modulu unittest).
+Manuální testy ověřují běžné i hraniční vstupy (např. nečíselné, záporné či desetinné hodnoty)  
+a slouží také jako základ pro možné budoucí automatizované testování.
 
 ---
 
@@ -99,37 +127,20 @@ Správce úkolů - Hlavní menu
 3. Odstranit úkol
 4. Konec programu
 
-Vyberte možnost (1-4): 1
-Zadejte název úkolu: nakoupit
-Zadejte popis úkolu: mléko, chléb, máslo
-Úkol 'nakoupit' byl přidán.
+Vyberte možnost (1-4): 3
+Zadejte číslo úkolu: 1
+Úkol č. 1 byl odstraněn.
 ```
 
 ---
 
 ## Klíčové prvky kódu
 
-- **Funkce `hlavni_menu()`**  
-  Nekonečný cyklus zobrazující nabídku akcí a zajišťující navigaci mezi funkcemi.
-
-- **Funkce `pridat_ukol()`**  
-  Přidává nový úkol do seznamu `ukoly`.
-
-- **Funkce `zobrazit_ukoly()`**  
-  Vypisuje všechny uložené úkoly s pořadovým číslem v seznamu, jejich názvem a popisem.
-
-- **Funkce `odstranit_ukol()`**  
-  Odstraňuje úkol podle zadaného pořadového čísla a ošetřuje chybné vstupy.
-
+- **`hlavni_menu()`** – hlavní navigační funkce programu, řídící smyčka programu s cyklem while true (nevrací hodnotu), volá ostatní funkce podle uživatelské volby  
+- **`pridat_ukol()`** – přidání nového úkolu, vrací `True` / `False`  
+- **`zobrazit_ukoly()`** – přehled uložených úkolů (nevrací hodnotu) 
+- **`odstranit_ukol()`** – mazání úkolu podle zadaného pořadí, vrací True/False podle úspěchu 
 ---
 
-## Použité konstrukce a principy
-
-- Seznamy (`list`) a slovníky (`dict`)  
-- Funkce (`def`)  
-- Cykly a podmínky  
-- Výjimky (`try / except`)  
-- F-stringy pro formátování textu  
-- Opakované zobrazování menu pomocí nekonečného cyklu `while True`
-
----
+## Licence
+Projekt vytvořen pro studijní účely po ukončení kurzu **ENGETO Testing Akademie**.
